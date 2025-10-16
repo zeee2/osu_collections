@@ -58,6 +58,7 @@ export const GET = async ({ url, cookies }) => {
 			id: userData.id,
 			username: userData.username,
 			avatar_url: userData.avatar_url,
+			cover_url: userData.cover_url,
 			country_code: userData.country_code
 		},
 		accessToken: tokenData.access_token,
