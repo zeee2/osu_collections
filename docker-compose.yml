@@ -16,9 +16,9 @@ services:
       - PORT=${APP_PORT}
       - HOST=${APP_HOST}
     restart: unless-stopped
-    depends_on:
-      - jahkon_collections_db
-      - jahkon_collections_meilisearch
+    # depends_on:
+    #   - jahkon_collections_db
+    #   - jahkon_collections_meilisearch
     networks:
       - jahkon-net
 
