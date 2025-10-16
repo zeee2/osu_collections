@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   jahkon_collections_app:
-    build: .
+    image: jahkon_col:latest
     ports:
       - "5173:3000"
     env_file:
