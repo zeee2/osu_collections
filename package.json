@@ -28,6 +28,8 @@
 		"@tailwindcss/vite": "4.0.0-alpha.34",
 		"@types/eslint": "9.6.1",
 		"autoprefixer": "10.4.20",
+		"dotenv": "^17.2.3",
+		"drizzle-kit": "^0.31.5",
 		"eslint": "9.15.0",
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-svelte": "2.46.0",
@@ -46,7 +48,11 @@
 	},
 	"dependencies": {
 		"@fontsource-variable/inter": "5.1.0",
+		"@fontsource/pretendard": "^5.2.5",
 		"@inlang/paraglide-sveltekit": "0.11.5",
+		"drizzle-orm": "^0.44.6",
+		"meilisearch": "^0.53.0",
+		"pg": "^8.16.3",
 		"zod": "^4.1.12"
 	}
 }
