@@ -75,7 +75,8 @@ export const GET = async ({ url, cookies }) => {
 		path: '/',
 		httpOnly: true,
 		secure: process.env.NODE_ENV === 'production',
-		maxAge: tokenData.expires_in
+		maxAge: tokenData.expires_in,
+		sameSite: 'lax'
 	});
 
 	throw redirect(302, '/');

@@ -11,7 +11,10 @@ const handleAuth: Handle = async ({ event, resolve }) => {
 	const sessionCookie = event.cookies.get('session');
 
 	if (sessionCookie) {
-		const [sessionJson, signature] = sessionCookie.split('.');
+		const lastDotIndex = sessionCookie.lastIndexOf('.');
+		const sessionJson = sessionCookie.slice(0, lastDotIndex);
+		const signature = sessionCookie.slice(lastDotIndex + 1);
+
 		const expectedSignature = createHmac('sha256', env.COOKIE_SECRET)
 			.update(sessionJson)
 			.digest('hex');
