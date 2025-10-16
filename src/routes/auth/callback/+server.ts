@@ -2,6 +2,7 @@
 import { error, redirect } from '@sveltejs/kit';
 import { env } from '$lib/server/env';
 import type { OsuUser } from '$lib/types/osu';
+import { createHmac } from 'crypto';
 
 const OSU_TOKEN_URL = 'https://osu.ppy.sh/oauth/token';
 const OSU_API_URL = 'https://osu.ppy.sh/api/v2';
@@ -50,12 +51,18 @@ export const GET = async ({ url, cookies }) => {
 
 	const userData: OsuUser = await userResponse.json();
 
+
 	// Create session
-	import { createHmac } from 'crypto';
-
-// ... (기존 import들)
-
-// ... (GET 핸들러 내부)
+	const sessionData = {
+		user: {
+			id: userData.id,
+			username: userData.username,
+			avatar_url: userData.avatar_url,
+			country_code: userData.country_code
+		},
+		accessToken: tokenData.access_token,
+		expires_at: Date.now() + tokenData.expires_in * 1000
+	};
 
 	const sessionJson = JSON.stringify(sessionData);
 
