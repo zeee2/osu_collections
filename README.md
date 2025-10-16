@@ -1,5 +1,5 @@
-# osu! Collections: Sharing your osu! Beatmap Collection!
-
+# osu! Collections
+Sharing your osu! Beatmap Collections!  
 This project is a responsive beatmap collections web application for osu!, supporting light/dark themes.
 
 ## 🧰 What's inside
