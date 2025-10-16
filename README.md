@@ -1,4 +1,4 @@
-# Jahkon Collections: osu! Beatmap Collections Web Application
+# osu! Collections: Sharing your osu! Beatmap Collection!
 
 This project is a responsive beatmap collections web application for osu!, supporting light/dark themes.
 
