@@ -33,43 +33,6 @@ This project comes with:
 - [Playwright](https://playwright.dev): Fast and reliable end-to-end testing for modern web apps.
 - [Vitest](https://vitest.dev/): Blazing Fast Unit Test Framework.
 
-## 📦 Installation
-
-Download the repository and install the dependencies:
-
-```bash
-pnpm install
-```
-
-## 🛠️ Developing
-
-Once you've installed dependencies with `pnpm install`, start a development server:
-
-```bash
-pnpm run dev
-
-# or start the server and open the app in a new browser tab
-pnpm run dev -- --open
-```
-
-## 🚀 Building
-
-To create a production version of your app:
-
-```bash
-pnpm run build
-```
-
-You can preview the production build with `pnpm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-
-## 🤝 Contributing
-
-Contributions, issues and feature requests are welcome!
-<br />
-Feel free to check the [issues page](https://github.com/zeee2/jahkon_collections/issues).
-
 ## License
 
 MIT
