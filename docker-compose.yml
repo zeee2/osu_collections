@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  jahkon_collections_app:
+    build: .
+    ports:
+      - "5173:3000"
+    env_file:
+      - .env
+    environment:
+      - PORT=${APP_PORT}
+      - HOST=${APP_HOST}
+    restart: unless-stopped
+    depends_on:
+      - db
+      - meilisearch
+    networks:
+      - jahkon-net
+
+  jahkon_collections_db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    # ports:
+    #   - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - jahkon-net
+
+  jahkon_collections_meilisearch:
+    image: getmeili/meilisearch:v1.8
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+    # ports:
+    #   - "7700:7700"
+    volumes:
+      - meili_data:/meili_data
+    networks:
+      - jahkon-net
+
+volumes:
+  postgres_data:
+  meili_data:
+
+networks:
+  jahkon-net:
+    driver: bridge
