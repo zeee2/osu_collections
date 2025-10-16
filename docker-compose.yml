@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  jahkon_collections_app:
+  app:
     image: jahkon_col:latest
     build:
       context: .
@@ -13,16 +13,16 @@ services:
     env_file:
       - .env
     environment:
-      - PORT=${APP_PORT}
-      - HOST=${APP_HOST}
+      - PORT=3000
+      - HOST=0.0.0.0
     restart: unless-stopped
     # depends_on:
-    #   - jahkon_collections_db
-    #   - jahkon_collections_meilisearch
+    #   - db
+    #   - meilisearch
     networks:
       - jahkon-net
 
-  jahkon_collections_db:
+  db:
     image: postgres:16-alpine
     restart: unless-stopped
     env_file:
@@ -38,7 +38,7 @@ services:
     networks:
       - jahkon-net
 
-  jahkon_collections_meilisearch:
+  meilisearch:
     image: getmeili/meilisearch:v1.8
     restart: unless-stopped
     env_file:
