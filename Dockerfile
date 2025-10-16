@@ -26,7 +26,7 @@ RUN pnpm svelte-kit sync
 RUN OSU_CLIENT_ID=${OSU_CLIENT_ID} OSU_CLIENT_SECRET=${OSU_CLIENT_SECRET} pnpm run build
 
 # 2. Production Stage
-FROM node:20-alpine AS production
+FROM node:24-alpine AS production
 
 WORKDIR /app
 
