@@ -63,7 +63,10 @@ COPY --from=build /app/.svelte-kit/output ./.svelte-kit/output
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Set the user to run the app (optional, but good practice)
+# Create a non-root user to run the app for better security
+RUN addgroup --system --gid 1000 node && adduser --system --uid 1000 --gid 1000 node
+
+# Set the user to run the app
 USER node
 
 # Set the entrypoint to start the server
