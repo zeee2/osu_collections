@@ -3,6 +3,11 @@ version: '3.8'
 services:
   jahkon_collections_app:
     image: jahkon_col:latest
+    build:
+      context: .
+      args:
+        - OSU_CLIENT_ID=${OSU_CLIENT_ID}
+        - OSU_CLIENT_SECRET=${OSU_CLIENT_SECRET}
     ports:
       - "5173:3000"
     env_file:

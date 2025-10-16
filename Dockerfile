@@ -3,6 +3,10 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
+# These ARGs will be populated by docker-compose from the .env file
+ARG OSU_CLIENT_ID
+ARG OSU_CLIENT_SECRET
+
 # Install pnpm
 RUN npm install -g pnpm
 
@@ -15,8 +19,11 @@ RUN pnpm install
 # Copy source code
 COPY . .
 
-# Build the application
-RUN pnpm run build
+# Generate SvelteKit's internal types and tsconfig to fix build warnings
+RUN pnpm svelte-kit sync
+
+# Build the application, passing the ARGs as environment variables for the build command
+RUN OSU_CLIENT_ID=${OSU_CLIENT_ID} OSU_CLIENT_SECRET=${OSU_CLIENT_SECRET} pnpm run build
 
 # 2. Production Stage
 FROM node:20-alpine AS production
