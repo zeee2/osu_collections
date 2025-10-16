@@ -6,13 +6,13 @@
 	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
 	import Header from '$components/header.svelte';
 
-	let { children } = $props();
+	let { data, children } = $props();
 </script>
 
 <ModeWatcher />
 
 <ParaglideJS {i18n}>
-	<Header />
+	<Header user={data.user} />
 
 	{@render children()}
 </ParaglideJS>
