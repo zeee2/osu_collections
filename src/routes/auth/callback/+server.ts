@@ -51,18 +51,20 @@ export const GET = async ({ url, cookies }) => {
 	const userData: OsuUser = await userResponse.json();
 
 	// Create session
-	const sessionData = {
-		user: {
-			id: userData.id,
-			username: userData.username,
-			avatar_url: userData.avatar_url,
-			country_code: userData.country_code
-		},
-		accessToken: tokenData.access_token,
-		expires_at: Date.now() + tokenData.expires_in * 1000
-	};
+	import { createHmac } from 'crypto';
 
-	cookies.set('session', JSON.stringify(sessionData), {
+// ... (기존 import들)
+
+// ... (GET 핸들러 내부)
+
+	const sessionJson = JSON.stringify(sessionData);
+
+	// Create a signature
+	const signature = createHmac('sha256', env.COOKIE_SECRET).update(sessionJson).digest('hex');
+
+	const signedSession = `${sessionJson}.${signature}`;
+
+	cookies.set('session', signedSession, {
 		path: '/',
 		httpOnly: true,
 		secure: process.env.NODE_ENV === 'production',
