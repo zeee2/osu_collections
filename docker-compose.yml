@@ -17,8 +17,8 @@ services:
       - HOST=${APP_HOST}
     restart: unless-stopped
     depends_on:
-      - db
-      - meilisearch
+      - jahkon_collections_db
+      - jahkon_collections_meilisearch
     networks:
       - jahkon-net
 
