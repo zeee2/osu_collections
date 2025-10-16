@@ -4,24 +4,29 @@ services:
   app:
     build:
       context: .
+      dockerfile: Dockerfile
       args:
-        - OSU_CLIENT_ID=${OSU_CLIENT_ID}
-        - OSU_CLIENT_SECRET=${OSU_CLIENT_SECRET}
+        OSU_CLIENT_ID: ${OSU_CLIENT_ID}
+        OSU_CLIENT_SECRET: ${OSU_CLIENT_SECRET}
     image: jahkon_col:latest
-    container_name: jahkon_collections_app
+    container_name: jahkon_app
     restart: unless-stopped
     ports:
-      - "5173:3000"
+      - "5173:3000"        # 외부 5173 -> 내부 3000
     env_file:
       - .env
     environment:
-      - PORT=3000
-      - HOST=0.0.0.0
+      NODE_ENV: production
+      PORT: 3000
+      HOST: 0.0.0.0
+      OSU_CLIENT_ID: ${OSU_CLIENT_ID}
+      OSU_CLIENT_SECRET: ${OSU_CLIENT_SECRET}
     depends_on:
       - db
       - meilisearch
     networks:
       - jahkon-net
+
 
   db:
     image: postgres:16-alpine
@@ -53,10 +58,28 @@ services:
     networks:
       - jahkon-net
 
+  # Cloudflare tunneling via Zero-Trust
+  cloudflared:
+     image: cloudflare/cloudflared
+     restart: unless-stopped
+     command: tunnel run
+     networks:
+       - jahkon-net
+     environment:
+       - TUNNEL_TOKEN=eyJhIjoiY2IxYmVjMjQ5NmY0ZjRlYmJlZWY1NjUyYTk4ODQ5NjgiLCJ0IjoiNmY2Mjk5MGQtYjA3Ny00NTRjLTk0MjctYmQzNmNiM2FjYjc5IiwicyI6Ik1HTXdaVEU1WVRrdFlUaGpNQzAwT0dGakxXSTNNakV0TWprNE1USTVaV1l5WlRjdyJ9
+
+
 volumes:
   postgres_data:
   meili_data:
 
 networks:
   jahkon-net:
+    name: jahkon-net
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
+          gateway: 172.28.0.1
+    enable_ipv6: false

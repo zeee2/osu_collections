@@ -1,74 +1,30 @@
-# Stage 1: Build the application
-FROM ubuntu:22.04 AS build
-
-# Avoid interactive prompts
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Install build dependencies, curl, and Node.js (v20)
-RUN apt-get update && \
-    apt-get install -y curl build-essential && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs
-
-# Install pnpm
-RUN npm install -g pnpm
-
+# Build stage
+FROM node:20-alpine AS build
 WORKDIR /app
+RUN corepack enable
 
-# These ARGs will be populated by docker-compose from the .env file
 ARG OSU_CLIENT_ID
 ARG OSU_CLIENT_SECRET
+ENV OSU_CLIENT_ID=$OSU_CLIENT_ID
+ENV OSU_CLIENT_SECRET=$OSU_CLIENT_SECRET
 
-# Copy dependency definitions
-COPY package.json pnpm-lock.yaml ./ 
-
-# Install all dependencies
+COPY pnpm-lock.yaml package.json ./
 RUN pnpm install
-
-# Copy the rest of the source code
 COPY . .
+RUN pnpm run build
 
-# Generate SvelteKit's internal types and tsconfig
-RUN pnpm svelte-kit sync
-
-# Build the application, passing the ARGs as environment variables
-RUN OSU_CLIENT_ID=${OSU_CLIENT_ID} OSU_CLIENT_SECRET=${OSU_CLIENT_SECRET} pnpm run build
-
-
-# Stage 2: Create the production image
-FROM ubuntu:22.04 AS production
-
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Install Node.js (v20)
-RUN apt-get update && \
-    apt-get install -y curl && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs
-
-# Install pnpm
-RUN npm install -g pnpm
-
+# Run stage
+FROM node:20-alpine
 WORKDIR /app
+RUN corepack enable
 
-# Copy dependency definitions
-COPY package.json pnpm-lock.yaml ./ 
-
-# Install only production dependencies
+COPY --from=build /app/build ./build
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --prod
 
-# Copy the built application from the build stage
-COPY --from=build /app/build ./build
-COPY --from=build /app/.svelte-kit ./.svelte-kit
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOST=0.0.0.0
 
-# Expose the port the app runs on
 EXPOSE 3000
-
-# Create a non-root user to run the app for better security
-RUN addgroup --system --gid 1000 node && adduser --system --uid 1000 --gid 1000 node
-
-# Set the user to run the app
-USER node
-
-# Set the entrypoint to start the server
-CMD ["node", "./build/index.js"]
+CMD ["node", "build"]
