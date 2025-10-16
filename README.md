@@ -6,35 +6,17 @@ This project is a responsive beatmap collections web application for osu!, suppo
 
 This project comes with:
 
-### JavaScript frameworks
+### frameworks
 
-- [Svelte 5](https://svelte.dev): Web development for the rest of us.
-- [SvelteKit](https://svelte.dev/docs/kit): Web development, streamlined.
+- [Svelte 5](https://svelte.dev) [SvelteKit](https://svelte.dev/docs/kit) [TailwindCSS 4](https://tailwindcss.com)
 
-### Database
+### Database & Search Engine
 
-- [Drizzle ORM](https://orm.drizzle.team/): TypeScript ORM for SQL databases.
-- [PostgreSQL](https://www.postgresql.org/): Powerful, open source object-relational database system.
-
-### Search Engine
-
-- [Meilisearch](https://www.meilisearch.com/): A blazing fast and hyper relevant search-engine.
-
-### Components
-
-- `header.svelte`: Responsive application header with locale switcher and user authentication.
-- `user-menu.svelte`: User menu component with avatar, username, cover image, and logout functionality in a card-style popup.
-- ongoing
+- [Drizzle ORM](https://orm.drizzle.team/) [PostgreSQL](https://www.postgresql.org/) [Meilisearch](https://www.meilisearch.com/)
 
 ### Type checking
 
 - [TypeScript](https://www.typescriptlang.org): JavaScript with syntax for types.
-
-### CSS frameworks
-
-- [TailwindCSS 4](https://tailwindcss.com): Rapidly build modern websites without ever leaving your HTML.
-- [@tailwindcss/forms](https://github.com/tailwindlabs/tailwindcss-forms): A plugin that provides a basic reset for form styles that makes form elements easy to override with utilities.
-- Sensible defaults in the `tailwind.config.js`.
 
 ### Formatting & Linting
 
