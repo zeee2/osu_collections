@@ -58,7 +58,8 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --prod
 
 # Copy the built application from the build stage
-COPY --from=build /app/.svelte-kit/output ./.svelte-kit/output
+COPY --from=build /app/build ./build
+COPY --from=build /app/.svelte-kit ./.svelte-kit
 
 # Expose the port the app runs on
 EXPOSE 3000
@@ -70,4 +71,4 @@ RUN addgroup --system --gid 1000 node && adduser --system --uid 1000 --gid 1000 
 USER node
 
 # Set the entrypoint to start the server
-CMD ["node", ".svelte-kit/output/server/index.js"]
+CMD ["node", "./build/index.js"]
